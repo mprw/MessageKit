@@ -51,6 +51,9 @@ public enum MessageData {
 
     /// An emoji message.
     case emoji(String)
+    
+    /// A message with rich content
+    case richContent(text: String, image: UIImage)
 
     // MARK: - Not supported yet
 

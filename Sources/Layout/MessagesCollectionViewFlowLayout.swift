@@ -284,6 +284,8 @@ fileprivate extension MessagesCollectionViewFlowLayout {
         case .attributedText(let text):
             guard let font = text.attribute(.font, at: 0, effectiveRange: nil) as? UIFont else { return }
             attributes.messageLabelFont = font
+        case .richContent:
+            attributes.messageLabelFont = messageLabelFont
         default:
             break
         }
@@ -399,7 +401,7 @@ private extension MessagesCollectionViewFlowLayout {
     func messageContainerMaxWidth(for attributes: MessageIntermediateLayoutAttributes) -> CGFloat {
         
         switch attributes.message.data {
-        case .text, .attributedText:
+        case .text, .attributedText, .richContent:
             return itemWidth - attributes.avatarSize.width - attributes.messageHorizontalPadding - attributes.messageLabelHorizontalInsets
         default:
             return itemWidth - attributes.avatarSize.width - attributes.messageHorizontalPadding
@@ -441,6 +443,13 @@ private extension MessagesCollectionViewFlowLayout {
         case .location:
             let width = messagesLayoutDelegate.widthForLocation(message: message, at: indexPath, with: maxWidth, in: messagesCollectionView)
             let height = messagesLayoutDelegate.heightForLocation(message: message, at: indexPath, with: maxWidth, in: messagesCollectionView)
+            messageContainerSize = CGSize(width: width, height: height)
+        case .richContent(let text, _):
+            let width = messagesLayoutDelegate.widthForMedia(message: message, at: indexPath, with: maxWidth, in: messagesCollectionView)
+            var height = messagesLayoutDelegate.heightForMedia(message: message, at: indexPath, with: maxWidth, in: messagesCollectionView)
+            var messageLabelContainerSize = labelSize(for: text, considering: maxWidth, and: messageLabelFont)
+            messageLabelContainerSize.height += attributes.messageLabelVerticalInsets
+            height += messageLabelContainerSize.height
             messageContainerSize = CGSize(width: width, height: height)
         }
         
