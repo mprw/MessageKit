@@ -64,25 +64,22 @@ open class RichContentMessageCell: MessageCollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         richContentView.translatesAutoresizingMaskIntoConstraints = false
         
-        messageLabel.topAnchor.constraint(equalTo: richContentView.topAnchor).isActive = true
+        messageLabel.heightAnchor.constraint(equalToConstant: 32).isActive = true
         messageLabel.rightAnchor.constraint(equalTo: richContentView.rightAnchor).isActive = true
         messageLabel.leftAnchor.constraint(equalTo: richContentView.leftAnchor).isActive = true
-        messageLabel.bottomAnchor.constraint(equalTo: imageView.topAnchor).isActive = true
-                
-        imageView.rightAnchor.constraint(equalTo: richContentView.rightAnchor).isActive = true
-        imageView.leftAnchor.constraint(equalTo: richContentView.leftAnchor).isActive = true
-        imageView.bottomAnchor.constraint(equalTo: richContentView.bottomAnchor).isActive = true
+        messageLabel.bottomAnchor.constraint(equalTo: richContentView.bottomAnchor).isActive = true
         
-        imageView.setContentHuggingPriority(.defaultLow, for: .vertical)
-        messageLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        
+        imageView.fillSuperview()
         richContentView.fillSuperview()
     }
     
     open override func setupSubviews() {
         super.setupSubviews()
         
-        richContentView.addSubview(messageLabel)
+        messageLabel.numberOfLines = 1
+        messageLabel.lineBreakMode = .byTruncatingTail
+        
+        imageView.addSubview(messageLabel)
         richContentView.addSubview(imageView)
         messageContainerView.addSubview(richContentView)
         
