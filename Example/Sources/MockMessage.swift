@@ -64,5 +64,8 @@ struct MockMessage: MessageType {
     init(emoji: String, sender: Sender, messageId: String, date: Date) {
         self.init(data: .emoji(emoji), sender: sender, messageId: messageId, date: date)
     }
-
+    
+    init(text: String, image: UIImage, sender: Sender, messageId: String, date: Date) {
+        self.init(data: .richContent(text: text, image: image), sender: sender, messageId: messageId, date: date)
+    }
 }
