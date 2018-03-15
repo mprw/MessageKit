@@ -284,7 +284,7 @@ fileprivate extension MessagesCollectionViewFlowLayout {
         case .attributedText(let text):
             guard let font = text.attribute(.font, at: 0, effectiveRange: nil) as? UIFont else { return }
             attributes.messageLabelFont = font
-        case .richContent:
+        case .imageText:
             attributes.messageLabelFont = messageLabelFont
         default:
             break
@@ -401,7 +401,7 @@ private extension MessagesCollectionViewFlowLayout {
     func messageContainerMaxWidth(for attributes: MessageIntermediateLayoutAttributes) -> CGFloat {
         
         switch attributes.message.data {
-        case .text, .attributedText, .richContent:
+        case .text, .attributedText, .imageText:
             return itemWidth - attributes.avatarSize.width - attributes.messageHorizontalPadding - attributes.messageLabelHorizontalInsets
         default:
             return itemWidth - attributes.avatarSize.width - attributes.messageHorizontalPadding
@@ -436,7 +436,7 @@ private extension MessagesCollectionViewFlowLayout {
             messageContainerSize = labelSize(for: text, considering: maxWidth, and: emojiLabelFont)
             messageContainerSize.width += attributes.messageLabelHorizontalInsets
             messageContainerSize.height += attributes.messageLabelVerticalInsets
-        case .photo, .video, .richContent:
+        case .photo, .video, .imageText:
             let width = messagesLayoutDelegate.widthForMedia(message: message, at: indexPath, with: maxWidth, in: messagesCollectionView)
             let height = messagesLayoutDelegate.heightForMedia(message: message, at: indexPath, with: maxWidth, in: messagesCollectionView)
             messageContainerSize = CGSize(width: width, height: height)

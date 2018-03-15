@@ -24,9 +24,9 @@
 
 import UIKit
 
-open class RichContentMessageCell: MessageCollectionViewCell {
+open class ImageTextMessageCell: MessageCollectionViewCell {
     
-    open override class func reuseIdentifier() -> String { return "messagekit.cell.richcontent" }
+    open override class func reuseIdentifier() -> String { return "messagekit.cell.imagetext" }
     
     // MARK: - Properties
     
@@ -105,10 +105,9 @@ open class RichContentMessageCell: MessageCollectionViewCell {
                 messageLabel.setAttributes(attributes, detector: detector)
             }
             switch message.data {
-            case .richContent(let text, let image):
+            case .imageText(let text, let image):
                 imageView.image = image
                 messageLabel.text = text
-                
             default:
                 break
             }
