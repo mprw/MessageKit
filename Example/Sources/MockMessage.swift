@@ -66,6 +66,10 @@ struct MockMessage: MessageType {
     }
     
     init(text: String, image: UIImage, sender: Sender, messageId: String, date: Date) {
-        self.init(data: .richContent(text: text, image: image), sender: sender, messageId: messageId, date: date)
+        self.init(data: .imageText(text: text, image: image), sender: sender, messageId: messageId, date: date)
+    }
+    
+    init(text: String, description: String, imageUrl: URL, sender: Sender, messageId: String, date: Date) {
+        self.init(data: .shareImage(text: text, description: description, imageUrl: imageUrl), sender: sender, messageId: messageId, date: date)
     }
 }

@@ -70,7 +70,7 @@ final class SampleData {
 
     var now = Date()
 
-    let messageTypes = ["Text", "Text", "Text", "AttributedText", "Photo", "Video", "Location", "Emoji", "Rich Content"]
+    let messageTypes = ["Text", "Text", "Text", "AttributedText", "Photo", "Video", "Location", "Emoji", "Rich Content", "ShareImage"]
 
     let attributes = ["Font1", "Font2", "Font3", "Font4", "Color", "Combo"]
 
@@ -154,7 +154,7 @@ final class SampleData {
         let date = dateAddingRandomTime()
 
         switch messageTypes[randomMessageType] {
-        case "Text":
+        case "Text", "ShareImage":
             return MockMessage(text: messageTextValues[randomNumberText], sender: sender, messageId: uniqueID, date: date)
         case "AttributedText":
             let attributedText = attributedString(with: messageTextValues[randomNumberText])
