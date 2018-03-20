@@ -108,8 +108,21 @@ open class ImageTextMessageCell: MessageCollectionViewCell {
             case .imageText(let text, let image):
                 imageView.image = image
                 messageLabel.text = text
-            case .shareImage(let text, _, _):
+            case .shareImage(let text, let description, let imageUrl):
                 messageLabel.text = text
+                let request = URLRequest(url: imageUrl)
+                let session = URLSession.shared
+                let dataTask = session.dataTask(with: request) { [weak self] (data:Data?, response:URLResponse?, error:Error?) -> Void in
+                    DispatchQueue.main.async {
+                        if let imageData = data as Data? {
+                            self?.imageView.image = UIImage(data: imageData)
+                        } else {
+                            self?.imageView.image = nil
+                        }
+                    }
+                }
+                dataTask.resume()
+                
             default:
                 break
             }
