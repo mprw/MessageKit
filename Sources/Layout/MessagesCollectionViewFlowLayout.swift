@@ -445,7 +445,7 @@ private extension MessagesCollectionViewFlowLayout {
         case .shareImage(let text, let description, _):
             let textSize = labelSize(for: text, considering: maxWidth, and: messageLabelFont)
             let descriptionSize = labelSize(for: description, considering: maxWidth, and: messageLabelFont)
-            messageContainerSize.width += textSize.width + descriptionSize.width
+            messageContainerSize.width += textSize.width
             messageContainerSize.height += textSize.height + descriptionSize.height
             messageContainerSize.width += attributes.messageLabelHorizontalInsets
             messageContainerSize.height += attributes.messageLabelVerticalInsets
