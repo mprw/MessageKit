@@ -264,6 +264,9 @@ public extension MessagesLayoutDelegate {
         case .photo(let image), .video(_, let image), .imageText(_, let image):
             let boundingRect = CGRect(origin: .zero, size: CGSize(width: maxWidth, height: .greatestFiniteMagnitude))
             return AVMakeRect(aspectRatio: image.size, insideRect: boundingRect).height
+        case .shareImage:
+            let boundingRect = CGRect(origin: .zero, size: CGSize(width: maxWidth, height: .greatestFiniteMagnitude))
+            return AVMakeRect(aspectRatio: CGSize(width: 3, height: 2), insideRect: boundingRect).height
         default:
             return 0
         }

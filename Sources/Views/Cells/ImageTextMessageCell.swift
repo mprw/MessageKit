@@ -108,6 +108,8 @@ open class ImageTextMessageCell: MessageCollectionViewCell {
             case .imageText(let text, let image):
                 imageView.image = image
                 messageLabel.text = text
+            case .shareImage(let text, _, _):
+                messageLabel.text = text
             default:
                 break
             }

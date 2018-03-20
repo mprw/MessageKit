@@ -54,6 +54,9 @@ public enum MessageData {
     
     /// A message with image and overlay title
     case imageText(text: String, image: UIImage)
+    
+    /// A message with title, description, image url
+    case shareImage(text: String, description: String, imageUrl: URL)
 
     // MARK: - Not supported yet
 
