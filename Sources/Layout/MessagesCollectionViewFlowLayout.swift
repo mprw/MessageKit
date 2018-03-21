@@ -442,11 +442,9 @@ private extension MessagesCollectionViewFlowLayout {
             let width = messagesLayoutDelegate.widthForLocation(message: message, at: indexPath, with: maxWidth, in: messagesCollectionView)
             let height = messagesLayoutDelegate.heightForLocation(message: message, at: indexPath, with: maxWidth, in: messagesCollectionView)
             messageContainerSize = CGSize(width: width, height: height)
-        case .shareImage(let text, let description, _):
-            let textSize = labelSize(for: text, considering: maxWidth, and: messageLabelFont)
-            let descriptionSize = labelSize(for: description, considering: maxWidth, and: messageLabelFont)
-            messageContainerSize.width += textSize.width
-            messageContainerSize.height += textSize.height + descriptionSize.height
+        case .shareImage:
+            messageContainerSize.width = messagesLayoutDelegate.widthForMedia(message: message, at: indexPath, with: maxWidth, in: messagesCollectionView)
+            messageContainerSize.height += messagesLayoutDelegate.heightForMedia(message: message, at: indexPath, with: maxWidth, in: messagesCollectionView)
             messageContainerSize.width += attributes.messageLabelHorizontalInsets
             messageContainerSize.height += attributes.messageLabelVerticalInsets
         }

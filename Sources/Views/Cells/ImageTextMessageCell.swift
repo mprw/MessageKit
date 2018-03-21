@@ -42,6 +42,8 @@ open class ImageTextMessageCell: MessageCollectionViewCell {
     
     open var richContentView = UIView()
     
+    open var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    
     // MARK: - Methods
     
     open override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
@@ -71,6 +73,7 @@ open class ImageTextMessageCell: MessageCollectionViewCell {
         
         imageView.fillSuperview()
         richContentView.fillSuperview()
+        activityIndicator.centerInSuperview()
     }
     
     open override func setupSubviews() {
@@ -81,6 +84,7 @@ open class ImageTextMessageCell: MessageCollectionViewCell {
         
         imageView.addSubview(messageLabel)
         richContentView.addSubview(imageView)
+        richContentView.addSubview(activityIndicator)
         messageContainerView.addSubview(richContentView)
         
         imageView.contentMode = .scaleAspectFill
@@ -97,7 +101,10 @@ open class ImageTextMessageCell: MessageCollectionViewCell {
         
         let textColor = displayDelegate.textColor(for: message, at: indexPath, in: messagesCollectionView)
         let enabledDetectors = displayDelegate.enabledDetectors(for: message, at: indexPath, in: messagesCollectionView)
-        
+        let animationBlock = displayDelegate.animationBlockForLocation(message: message, at: indexPath, in: messagesCollectionView)
+
+        activityIndicator.startAnimating()
+
         messageLabel.configure {
             messageLabel.enabledDetectors = enabledDetectors
             for detector in enabledDetectors {
@@ -108,16 +115,18 @@ open class ImageTextMessageCell: MessageCollectionViewCell {
             case .imageText(let text, let image):
                 imageView.image = image
                 messageLabel.text = text
-            case .shareImage(let text, let description, let imageUrl):
+            case .shareImage(let text, _, let imageUrl):
                 messageLabel.text = text
                 let request = URLRequest(url: imageUrl)
                 let session = URLSession.shared
-                let dataTask = session.dataTask(with: request) { [weak self] (data:Data?, response:URLResponse?, error:Error?) -> Void in
+
+                let dataTask = session.dataTask(with: request) { [weak self] (data: Data?, _, _) -> Void in
+                    guard let strongSelf = self else { return }
                     DispatchQueue.main.async {
                         if let imageData = data as Data? {
-                            self?.imageView.image = UIImage(data: imageData)
-                        } else {
-                            self?.imageView.image = nil
+                            strongSelf.imageView.image = UIImage(data: imageData)
+                            strongSelf.activityIndicator.stopAnimating()
+                            animationBlock?(strongSelf.imageView)
                         }
                     }
                 }
